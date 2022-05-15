@@ -1,3 +1,4 @@
 Flask
+WTForms==2.3.3
 Flask-WTF
 pymongo
