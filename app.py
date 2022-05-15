@@ -1,14 +1,17 @@
 from flask import Flask, render_template, redirect
+import getpass
+import pprint
 from pymongo import MongoClient
 from classes import *
 
 # config system
 app = Flask(__name__)
 app.config.update(dict(SECRET_KEY='yoursecretkey'))
-client = MongoClient('localhost:27017')
+CONNECTION_STRING = getpass.getpass(prompt='Enter your primary connection string: ') # Prompts user for connection string
+client = MongoClient(CONNECTION_STRING)
 db = client.TaskManager
 
-if db.settings.find({'name': 'task_id'}).count() <= 0:
+if db.settings.count_documents({'name': 'task_id'}) <= 0:
     print("task_id Not found, creating....")
     db.settings.insert_one({'name':'task_id', 'value':0})
 
